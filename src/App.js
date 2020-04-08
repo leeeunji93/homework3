@@ -3,35 +3,45 @@ import axios from 'axios';
 
 class App extends Component {
   state = {
-    birthday:null
+    birthday:null,
+      data:null
   }
-   
+
+  handleChange = e =>{
+      this.setState({
+          birthday:e.target.value
+      })
+  }
+
+
   handleClick = () => {
-    axios.get('http://askat.me:8000/api/lotto')
+    axios.get('http://askat.me:8000/api/fortune/'+this.state.birthday)
     .then(response => {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
-    });
-    axios.get('http://askat.me:8000/api/fortune/1993-12-13')
-    .then(response => {
-      console.log(response)
+        console.log(response);
+     this.setState({
+         data:response.data
+     })
     })
-   
+
 };
 
     render() {
         
         return (
             <div className="form">
-              <input type />
-
+              <input
+                  name="birthday"
+                  type="date"
+                  placeholder="yyyy.nn.dd."
+                  onChange={this.handleChange}
+              />
                 <button onClick={this.handleClick}>
-                lotto
+                fortune
                 </button>
-               
+               <div>
+                   {this.state.data}
+                   {this.state.birthday}
+               </div>
             </div>
         );
     }
